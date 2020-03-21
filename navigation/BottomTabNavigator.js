@@ -51,6 +51,6 @@ function getHeaderTitle(route) {
     case 'Tracking':
       return 'Geo-Tracking';
     case 'Check':
-      return 'Links to learn more';
+      return 'Abgleich';
   }
 }

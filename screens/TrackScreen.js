@@ -1,15 +1,49 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Image, Platform, StyleSheet, Text, TouchableOpacity, View, Button } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import * as WebBrowser from 'expo-web-browser';
 
-import { MonoText } from '../components/StyledText';
+import * as Location from 'expo-location';
+import * as Permissions from 'expo-permissions';
 
 export default function TrackScreen() {
+
+  [trackingOn, setTrackingOn] = useState(false);
+  [permission, setPermission] = useState(false);
+
+  [intervalState, setIntervalState] = useState(null);
+
+  console.log(trackingOn)
+
+  const handleToggleTracking = async () => {
+    if (trackingOn) {
+      setTrackingOn(false);
+      clearInterval(intervalState);
+    } else {
+      let { status } = await Permissions.askAsync(Permissions.LOCATION);
+      if (status !== 'granted') {
+        setPermission(false);
+      } else {
+        setPermission(true);
+      }
+      saveLocationHistory();
+    }
+  }
+
+  const saveLocationHistory = async () => {
+    setTrackingOn(true);
+    const interval = setInterval(async () => {
+      let location = await Location.getCurrentPositionAsync({});
+      console.log("wtf",location);
+    }, 15000);
+    setIntervalState(interval);
+  }
+
+
   return (
     <View style={styles.container}>
       <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-        <View style={styles.welcomeContainer}>
+        {/* <View style={styles.welcomeContainer}>
           {/* <Image
             source={
               __DEV__
@@ -17,14 +51,20 @@ export default function TrackScreen() {
                 : require('../assets/images/robot-prod.png')
             }
             style={styles.welcomeImage}
-          /> */}
-          <Text style={{fontSize: 50}}>🤒🤝❓</Text>
-        </View>
+          />
+
+        </View> */}
 
         <View style={styles.getStartedContainer}>
 
+          {trackingOn ?
+            <Text style={{ fontSize: 50 }}>✊🛡️📱</Text>
+            : <Text style={{ fontSize: 50 }}>🤒🤝❓</Text>
+
+          }
+
           {/* <Text style={styles.getStartedText}>Speichere deine Bewegungshistorie.</Text> */}
-          <Button title="Geolokation aufzeichnen"></Button>
+          <Button title={trackingOn ? "Aufzeichnung stoppen" : "Geolokation aufzeichnen"} onPress={handleToggleTracking}></Button>
           {/* <View style={[styles.codeHighlightContainer, styles.homeScreenFilename]}>
             <MonoText>screens/HomeScreen.js</MonoText>
           </View> */}
@@ -95,6 +135,7 @@ const styles = StyleSheet.create({
   getStartedContainer: {
     alignItems: 'center',
     marginHorizontal: 50,
+    marginVertical: 200
   },
   homeScreenFilename: {
     marginVertical: 7,
