@@ -5,6 +5,9 @@ import * as WebBrowser from 'expo-web-browser';
 
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
+import { get_saved_coordinates, save_dummy_coordinates } from "../persistence/db_save_locations";
+
+export const LOCATION_TASK_NAME = 'background-location-task';
 
 export default function TrackScreen() {
 
@@ -15,10 +18,21 @@ export default function TrackScreen() {
 
   console.log(trackingOn)
 
+  const showSavedCoordinates = async () => {
+    try {
+      const dbResult = await get_saved_coordinates();
+      console.log("***RESULT:", dbResult);
+    } catch (err) {
+      console.log(err);
+      throw err;
+    }
+  };
+
   const handleToggleTracking = async () => {
     if (trackingOn) {
       setTrackingOn(false);
-      Location.stopLocationUpdatesAsync("interval")
+      Location.stopLocationUpdatesAsync(LOCATION_TASK_NAME);
+      console.log("tracking is off");
     } else {
       let { status } = await Permissions.askAsync(Permissions.LOCATION);
       if (status !== 'granted') {
@@ -28,14 +42,16 @@ export default function TrackScreen() {
         saveLocationHistory();
       }
     }
-  }
+  };
 
   const saveLocationHistory = async () => {
     setTrackingOn(true);
-      let location = await startLocationUpdatesAsync("interval", {accuracy: 3, timeInterval: 10000})
-      console.log("wtf",location);
-  }
-
+    Location.startLocationUpdatesAsync(LOCATION_TASK_NAME, {
+      accuracy: Location.Accuracy.Balanced,
+      timeInterval: 10000,
+      distanceInterval: 2
+    });
+  };
 
   return (
     <View style={styles.container}>
@@ -61,12 +77,16 @@ export default function TrackScreen() {
           }
 
           {/* <Text style={styles.getStartedText}>Speichere deine Bewegungshistorie.</Text> */}
-          <Button title={trackingOn ? "Aufzeichnung stoppen" : "Geolokation aufzeichnen"} onPress={handleToggleTracking}></Button>
+          <Button title={trackingOn ? "Aufzeichnung stoppen" : "Geolokation aufzeichnen"}
+            onPress={handleToggleTracking}></Button>
+          <Button title={"Log Result"}
+            onPress={showSavedCoordinates}></Button>
           {/* <View style={[styles.codeHighlightContainer, styles.homeScreenFilename]}>
             <MonoText>screens/HomeScreen.js</MonoText>
           </View> */}
           <Text style={styles.developmentModeText}>
-            Deine Daten werden nur lokal auf deinem Endgerät gespeichert. Wann immer du willst, kannst du sie mit den bei uns abliegenden Daten von infizierten Personen abgleichen.
+            Deine Daten werden nur lokal auf deinem Endgerät gespeichert. Wann immer du willst, kannst du sie mit den
+            bei uns abliegenden Daten von infizierten Personen abgleichen.
           </Text>
         </View>
 

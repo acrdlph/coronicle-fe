@@ -4,18 +4,32 @@ import { SQLite } from "expo-sqlite";
 const db = SQLite.openDatabase("locations.db");
 
 export const save_coordinates = (lat, lng, timestamp) => {
-  const promise = new Promise(() => {
-    (resolve, reject) => {
+  db.transaction(tx => {
+    tx.executeSql(
+      "INSERT INTO coordinates (lat, lng, timestamp) VALUES (?, ?, ?);",
+      [lat, lng, timestamp],
+      (tx, res) => console.log(res),
+      (_, err) => console.log(err) 
+    );
+  });
+};
+
+export const get_saved_coordinates = () => {
+  const promise = new Promise((resolve, reject) => {
+  console.log("get saved coordinates");
       db.transaction(tx => {
         tx.executeSql(
-          "INSERT INTO (lat, lng, timestamp) VALUES (?, ?, ?)",
-          [lat, lng, timestamp],
-          () => { resolve(); },
-          (_, error) = {
-            reject(error);
+          "SELECT * FROM coordinates;",
+          [],
+          (_, result) => {
+            // console.log(result);
+            resolve(result);
+          },
+          (_, err) => {
+            reject(err);
           }
         );
       });
-    }
-  });
-}
+    })
+  return promise;
+};
