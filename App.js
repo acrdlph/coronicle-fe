@@ -15,7 +15,7 @@ import { LOCATION_TASK_NAME } from "./screens/TrackScreen";
 import { save_coordinates } from "./persistence/db_save_locations";
 
 init()
-  .then(() => {
+  .then(() => { 
     console.log('Initialized database');
   })
   .catch(err => {

@@ -1,79 +1,62 @@
 import React, { useState } from 'react';
-import { Image, Platform, StyleSheet, Text, TouchableOpacity, View, Button } from 'react-native';
+import { ActivityIndicator, Platform, StyleSheet, Text, TouchableOpacity, View, Button } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import * as WebBrowser from 'expo-web-browser';
+import axios from 'axios';
 
-import { MonoText } from '../components/StyledText';
+import { get_saved_coordinates } from "../persistence/db_save_locations";
 
-export default function TrackScreen() {
+const CheckScreen = (props) => {
 
-  [trackingOn, setTrackingOn] = useState(false);
-  console.log(trackingOn)
+  [loading, setLoading] = useState(false);
+  console.log("loading check response ", loading)
+
+
+  const sendSavedCoordinates = async () => {
+    try {
+      setLoading(true);
+      const dbResult = await get_saved_coordinates();
+      console.log("***RESULT:", dbResult.rows._array);
+      // const beResponse = await axios.post('http://localhost:15000/checktrace', dbResult.rows._array);
+      // to mock request:
+      setTimeout(() => {
+        console.log("mock sending request");
+        setLoading(false);
+        // TODO: set contact to true or false based on beResponse
+        props.navigation.navigate("Response", {contact: true});
+      }, 1000);
+      // navigate to response screen (and pass outcome as navigation parameter)
+
+    } catch (err) {
+      console.log(err);
+      throw err;
+    }
+  };
 
   return (
     <View style={styles.container}>
+
       <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-        {/* <View style={styles.welcomeContainer}>
-          {/* <Image
-            source={
-              __DEV__
-                ? require('../assets/images/robot-dev.png')
-                : require('../assets/images/robot-prod.png')
-            }
-            style={styles.welcomeImage}
-          />
+        {loading ?
+          <ActivityIndicator size="large" />
+          :
+          <View style={styles.getStartedContainer}>
+            <Text style={{ fontSize: 50 }}>📡🗺️✅</Text>
+            <Button title={"Bewegungsdaten abgleichen"} onPress={sendSavedCoordinates}></Button>
+            <Text style={styles.developmentModeText}>
+              Deine Daten werden mit der Bewegungshistorie von infizierten Personen abgeglichen.(Aber nicht gespeichert!)
+              </Text>
+          </View>
+        }
 
-        </View> */}
-
-        <View style={styles.getStartedContainer}>
-
-          {trackingOn ?
-            <Text style={{ fontSize: 50 }}>📡</Text>
-            : <Text style={{ fontSize: 50 }}>📡</Text>
-
-          }
-
-          {/* <Text style={styles.getStartedText}>Speichere deine Bewegungshistorie.</Text> */}
-          <Button title={trackingOn ? "Bewegungsdaten abgleichen" : "Bewegungsdaten abgleichen"} onPress={() => setTrackingOn(!trackingOn)}></Button>
-          {/* <View style={[styles.codeHighlightContainer, styles.homeScreenFilename]}>
-            <MonoText>screens/HomeScreen.js</MonoText>
-          </View> */}
-          <Text style={styles.developmentModeText}>
-            Deine Daten werden mit der Bewegungshistorie von infizierten Personen abgeglichen.(Aber nicht gespeichert!)
-          </Text>
-        </View>
-
-        {/* <View style={styles.helpContainer}>
-          <TouchableOpacity onPress={handleHelpPress} style={styles.helpLink}>
-            <Text style={styles.helpLinkText}>Help, it didn’t automatically reload!</Text>
-          </TouchableOpacity>
-        </View> */}
       </ScrollView>
-
-      {/* <View style={styles.tabBarInfoContainer}>
-        <Text style={styles.tabBarInfoText}>This is a tab bar. You can edit it in:</Text>
-
-        <View style={[styles.codeHighlightContainer, styles.navigationFilename]}>
-          <MonoText style={styles.codeHighlightText}>navigation/BottomTabNavigator.js</MonoText>
-        </View>
-      </View> */}
     </View>
   );
 }
 
-TrackScreen.navigationOptions = {
+CheckScreen.navigationOptions = {
   header: null,
 };
-
-function handleLearnMorePress() {
-  WebBrowser.openBrowserAsync('https://docs.expo.io/versions/latest/workflow/development-mode/');
-}
-
-function handleHelpPress() {
-  WebBrowser.openBrowserAsync(
-    'https://docs.expo.io/versions/latest/get-started/create-a-new-app/#making-your-first-change'
-  );
-}
 
 const styles = StyleSheet.create({
   container: {
@@ -164,3 +147,5 @@ const styles = StyleSheet.create({
     color: '#2e78b7',
   },
 });
+
+export default CheckScreen;
