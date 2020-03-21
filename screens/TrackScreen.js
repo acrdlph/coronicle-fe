@@ -53,12 +53,6 @@ export default function TrackScreen() {
     });
   };
 
-  const dummyInsert = async () => {
-    const dbResult = await save_dummy_coordinates();
-    console.log(dbResult);
-  }
-
-
   return (
     <View style={styles.container}>
       <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>

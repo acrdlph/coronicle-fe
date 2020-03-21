@@ -1,5 +1,5 @@
-// import { SQLite } from "expo-sqlite";
-import * as SQLite from "expo-sqlite";
+import { SQLite } from "expo-sqlite";
+// import * as SQLite from "expo-sqlite";
 
 const db = SQLite.openDatabase("locations.db");
 
@@ -8,17 +8,6 @@ export const save_coordinates = (lat, lng, timestamp) => {
     tx.executeSql(
       "INSERT INTO coordinates (lat, lng, timestamp) VALUES (?, ?, ?);",
       [lat, lng, timestamp],
-      (tx, res) => console.log(res),
-      (_, err) => console.log(err) 
-    );
-  });
-};
-
-export const save_dummy_coordinates = () => {
-  db.transaction(tx => {
-    tx.executeSql(
-      "insert into coordinates (lat, lng, timestamp) values (?, ?, ?);",
-      [37.32798355, -122.01982712, 4],
       (tx, res) => console.log(res),
       (_, err) => console.log(err) 
     );
