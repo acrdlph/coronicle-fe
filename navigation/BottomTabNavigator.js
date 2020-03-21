@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import TabBarIcon from '../components/TabBarIcon';
-import HomeScreen from '../screens/HomeScreen';
-import LinksScreen from '../screens/LinksScreen';
+import TrackScreen from '../screens/TrackScreen';
+import CheckScreen from '../screens/CheckScreen';
+import ReportScreen from '../screens/ReportScreen';
 
 const BottomTab = createBottomTabNavigator();
 const INITIAL_ROUTE_NAME = 'Home';
@@ -17,7 +18,7 @@ export default function BottomTabNavigator({ navigation, route }) {
     <BottomTab.Navigator initialRouteName={INITIAL_ROUTE_NAME}>
       <BottomTab.Screen
         name="Tracking"
-        component={HomeScreen}
+        component={TrackScreen}
         options={{
           title: 'Geo-Tracking',
           tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-locate" />,
@@ -25,7 +26,7 @@ export default function BottomTabNavigator({ navigation, route }) {
       />
       <BottomTab.Screen
         name="Check"
-        component={LinksScreen}
+        component={CheckScreen}
         options={{
           title: 'Bewegungsabgleich',
           tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-sync" />,
@@ -33,7 +34,7 @@ export default function BottomTabNavigator({ navigation, route }) {
       />
       <BottomTab.Screen
         name="Report"
-        component={LinksScreen}
+        component={ReportScreen}
         options={{
           title: 'Infektion melden',
           tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-warning" />,
@@ -47,9 +48,9 @@ function getHeaderTitle(route) {
   const routeName = route.state?.routes[route.state.index]?.name ?? INITIAL_ROUTE_NAME;
 
   switch (routeName) {
-    case 'Home':
-      return 'How to get started';
-    case 'Links':
+    case 'Tracking':
+      return 'Geo-Tracking';
+    case 'Check':
       return 'Links to learn more';
   }
 }
