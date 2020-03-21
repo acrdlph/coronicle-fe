@@ -11,27 +11,32 @@ export default function TrackScreen() {
   [trackingOn, setTrackingOn] = useState(false);
   [permission, setPermission] = useState(false);
 
+  [intervalState, setIntervalState] = useState(null);
+
   console.log(trackingOn)
 
   const handleToggleTracking = async () => {
-    // clearInterval(interval);
-    }
-    let { status } = await Permissions.askAsync(Permissions.LOCATION);
-    if (status !== 'granted') {
-      setPermission(false);
+    if (trackingOn) {
+      setTrackingOn(false);
+      clearInterval(intervalState);
     } else {
-      setPermission(true);
+      let { status } = await Permissions.askAsync(Permissions.LOCATION);
+      if (status !== 'granted') {
+        setPermission(false);
+      } else {
+        setPermission(true);
+      }
+      saveLocationHistory();
     }
-    setTrackingOn(!trackingOn);
-    saveLocationHistory();
   }
 
   const saveLocationHistory = async () => {
-    const interval = setInterval(async ()=> {
+    setTrackingOn(true);
+    const interval = setInterval(async () => {
       let location = await Location.getCurrentPositionAsync({});
-      // console.log("wtf",location);
+      console.log("wtf",location);
     }, 15000);
-    clearInterval(interval);
+    setIntervalState(interval);
   }
 
 
@@ -52,12 +57,12 @@ export default function TrackScreen() {
 
         <View style={styles.getStartedContainer}>
 
-        {trackingOn ?
-          <Text style={{fontSize: 50}}>✊🛡️📱</Text>
-          : <Text style={{fontSize: 50}}>🤒🤝❓</Text>
-          
-        }
-          
+          {trackingOn ?
+            <Text style={{ fontSize: 50 }}>✊🛡️📱</Text>
+            : <Text style={{ fontSize: 50 }}>🤒🤝❓</Text>
+
+          }
+
           {/* <Text style={styles.getStartedText}>Speichere deine Bewegungshistorie.</Text> */}
           <Button title={trackingOn ? "Aufzeichnung stoppen" : "Geolokation aufzeichnen"} onPress={handleToggleTracking}></Button>
           {/* <View style={[styles.codeHighlightContainer, styles.homeScreenFilename]}>
