@@ -16,19 +16,27 @@ export default function BottomTabNavigator({ navigation, route }) {
   return (
     <BottomTab.Navigator initialRouteName={INITIAL_ROUTE_NAME}>
       <BottomTab.Screen
-        name="Home"
+        name="Tracking"
         component={HomeScreen}
         options={{
-          title: 'Get Started',
-          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-code-working" />,
+          title: 'Geo-Tracking',
+          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-locate" />,
         }}
       />
       <BottomTab.Screen
-        name="Links"
+        name="Check"
         component={LinksScreen}
         options={{
-          title: 'Resources',
-          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-book" />,
+          title: 'Bewegungsabgleich',
+          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-sync" />,
+        }}
+      />
+      <BottomTab.Screen
+        name="Report"
+        component={LinksScreen}
+        options={{
+          title: 'Infektion melden',
+          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-warning" />,
         }}
       />
     </BottomTab.Navigator>
