@@ -10,6 +10,9 @@ import BottomTabNavigator from './navigation/BottomTabNavigator';
 import useLinking from './navigation/useLinking';
 
 import { init } from './persistence/db_init';
+import * as TaskManager from "expo-task-manager";
+import { LOCATION_TASK_NAME } from "./screens/TrackScreen";
+import { save_coordinates } from "./persistence/db_save_locations";
 
 init()
   .then(() => {
@@ -20,6 +23,20 @@ init()
     console.log(err);
   });
 
+
+TaskManager.defineTask(LOCATION_TASK_NAME, ({ data, error }) => {
+  if (error) {
+    // Error occurred - check `error.message` for more details.
+    return;
+  }
+  if (data) {
+    const { locations } = data;
+    // do something with the locations captured in the background
+    console.log("captured locations", locations)
+    let coords = locations[0].coords;
+    save_coordinates(coords.latitude, coords.longitude)
+  }
+});
 
 const Stack = createStackNavigator();
 

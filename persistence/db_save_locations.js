@@ -8,14 +8,39 @@ export const save_coordinates = (lat, lng, timestamp) => {
     (resolve, reject) => {
       db.transaction(tx => {
         tx.executeSql(
-          "INSERT INTO (lat, lng, timestamp) VALUES (?, ?, ?)",
-          [lat, lng, timestamp],
-          () => { resolve(); },
-          (_, error) = {
-            reject(error);
+          "INSERT INTO coordinates (lat, lng) VALUES (?, ?);",
+          [lat, lng],
+          (_, result) => {
+            resolve(result);
+          },
+          (_, err) => {
+            reject(err);
           }
         );
       });
     }
   });
-}
+  return promise;
+};
+
+export const get_saved_coordinates = () => {
+  console.log("get saved coordinates");
+  const promise = new Promise(() => {
+    (resolve, reject) => {
+      console.log("executing select");
+      db.transaction(tx => {
+        tx.executeSql(
+          "SELECT * FROM coordinates;",
+          [lat, lng],
+          (_, result) => {
+            resolve(result);
+          },
+          (_, err) => {
+            reject(err);
+          }
+        );
+      });
+    }
+  });
+  return promise;
+};
