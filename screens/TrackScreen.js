@@ -1,11 +1,11 @@
-import React, {useState, useEffect} from 'react';
-import {Image, Platform, StyleSheet, Text, TouchableOpacity, View, Button} from 'react-native';
-import {ScrollView} from 'react-native-gesture-handler';
+import React, { useState, useEffect } from 'react';
+import { Image, Platform, StyleSheet, Text, TouchableOpacity, View, Button } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 import * as WebBrowser from 'expo-web-browser';
 
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
-import {get_saved_coordinates} from "../persistence/db_save_locations";
+import { get_saved_coordinates, save_dummy_coordinates } from "../persistence/db_save_locations";
 
 export const LOCATION_TASK_NAME = 'background-location-task';
 
@@ -22,8 +22,6 @@ export default function TrackScreen() {
     try {
       const dbResult = await get_saved_coordinates();
       console.log("***RESULT:", dbResult);
-      const resData = dbResult.rows._array;
-      console.log("fetched from db", resData);
     } catch (err) {
       console.log(err);
       throw err;
@@ -36,7 +34,7 @@ export default function TrackScreen() {
       Location.stopLocationUpdatesAsync(LOCATION_TASK_NAME);
       console.log("tracking is off");
     } else {
-      let {status} = await Permissions.askAsync(Permissions.LOCATION);
+      let { status } = await Permissions.askAsync(Permissions.LOCATION);
       if (status !== 'granted') {
         setPermission(false);
       } else {
@@ -54,6 +52,11 @@ export default function TrackScreen() {
       distanceInterval: 2
     });
   };
+
+  const dummyInsert = async () => {
+    const dbResult = await save_dummy_coordinates();
+    console.log(dbResult);
+  }
 
 
   return (
@@ -74,16 +77,16 @@ export default function TrackScreen() {
         <View style={styles.getStartedContainer}>
 
           {trackingOn ?
-            <Text style={{fontSize: 50}}>✊🛡️📱</Text>
-            : <Text style={{fontSize: 50}}>🤒🤝❓</Text>
+            <Text style={{ fontSize: 50 }}>✊🛡️📱</Text>
+            : <Text style={{ fontSize: 50 }}>🤒🤝❓</Text>
 
           }
 
           {/* <Text style={styles.getStartedText}>Speichere deine Bewegungshistorie.</Text> */}
           <Button title={trackingOn ? "Aufzeichnung stoppen" : "Geolokation aufzeichnen"}
-                  onPress={handleToggleTracking}></Button>
+            onPress={handleToggleTracking}></Button>
           <Button title={"Log Result"}
-                  onPress={showSavedCoordinates}></Button>
+            onPress={showSavedCoordinates}></Button>
           {/* <View style={[styles.codeHighlightContainer, styles.homeScreenFilename]}>
             <MonoText>screens/HomeScreen.js</MonoText>
           </View> */}
@@ -182,7 +185,7 @@ const styles = StyleSheet.create({
     ...Platform.select({
       ios: {
         shadowColor: 'black',
-        shadowOffset: {width: 0, height: -3},
+        shadowOffset: { width: 0, height: -3 },
         shadowOpacity: 0.1,
         shadowRadius: 3,
       },

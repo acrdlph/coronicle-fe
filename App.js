@@ -32,9 +32,10 @@ TaskManager.defineTask(LOCATION_TASK_NAME, ({ data, error }) => {
   if (data) {
     const { locations } = data;
     // do something with the locations captured in the background
-    console.log("captured locations", locations)
     let coords = locations[0].coords;
-    save_coordinates(coords.latitude, coords.longitude)
+    let timestamp = locations[0].timestamp.toFixed(0);
+    console.log("data to be saved", coords.latitude, coords.longitude, timestamp);
+    save_coordinates(coords.latitude, coords.longitude, timestamp);
   }
 });
 
