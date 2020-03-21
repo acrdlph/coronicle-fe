@@ -18,25 +18,22 @@ export default function TrackScreen() {
   const handleToggleTracking = async () => {
     if (trackingOn) {
       setTrackingOn(false);
-      clearInterval(intervalState);
+      Location.stopLocationUpdatesAsync("interval")
     } else {
       let { status } = await Permissions.askAsync(Permissions.LOCATION);
       if (status !== 'granted') {
         setPermission(false);
       } else {
         setPermission(true);
+        saveLocationHistory();
       }
-      saveLocationHistory();
     }
   }
 
   const saveLocationHistory = async () => {
     setTrackingOn(true);
-    const interval = setInterval(async () => {
-      let location = await Location.getCurrentPositionAsync({});
+      let location = await startLocationUpdatesAsync("interval", {accuracy: 3, timeInterval: 10000})
       console.log("wtf",location);
-    }, 15000);
-    setIntervalState(interval);
   }
 
 

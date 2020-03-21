@@ -25,7 +25,18 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "This app uses your phone's location to automatically save your movement history.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "This app uses your phone's location to automatically save your movement history.",
+        "NSLocationAlwaysUsageDescription": "This app uses your phone's location to automatically save your movement history."
+      }      
+    },
+    "android": {
+      "permissions": [
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_FINE_LOCATION"
+      ]
     }
   }
 }
