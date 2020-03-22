@@ -16,6 +16,6 @@ export function BigButton(props) {
         }}
         onPress={props.onPress}
     >
-        {props.loading ? <ActivityIndicator size="large" /> : <Text>{props.text}</Text>}
+        {props.loading ? <ActivityIndicator size="large" /> : <Text style={{fontSize: 16, fontStyle: 'italic'}}>{props.text}</Text>}
     </TouchableOpacity>
 }

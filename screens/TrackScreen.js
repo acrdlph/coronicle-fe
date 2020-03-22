@@ -73,7 +73,7 @@ export default function TrackScreen() {
 
             <BigButton onPress={handleToggleTracking} text={trackingOn ? "Aufzeichnung stoppen" : "Bewegungen aufzeichnen"} color={trackingOn ? '#E6E6E6' : '#FF8552'}/>
           <Text style={styles.developmentModeText}>
-            Deine Daten werden nur lokal auf deinem Endgerät gespeichert. Wann immer du willst, kannst du sie mit den
+            Deine Daten werden nur auf deinem Endgerät gespeichert. Wann immer du willst, kannst du sie mit den
             bei uns abliegenden Daten von infizierten Personen abgleichen.
           </Text>
         </View>
@@ -113,7 +113,7 @@ function handleHelpPress() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFEE73',
+    backgroundColor: '#fff',
   },
   developmentModeText: {
     marginBottom: 20,

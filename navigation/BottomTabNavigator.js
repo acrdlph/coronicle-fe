@@ -44,7 +44,7 @@ export default function BottomTabNavigator({ navigation, route }) {
   navigation.setOptions({ headerShown: false });
 
   return (
-    <BottomTab.Navigator initialRouteName={INITIAL_ROUTE_NAME} tabBarOptions={{activeTintColor: '#FF8552', inactiveTintColor: "#297373", style: {color: 'green', backgroundColor: '#FFEE73', borderTopColor: "transparent"}}}>
+    <BottomTab.Navigator initialRouteName={INITIAL_ROUTE_NAME} tabBarOptions={{activeTintColor: '#FF8552', inactiveTintColor: "#297373", style: { backgroundColor: '#fff', borderTopColor: "transparent"}}}>
       <BottomTab.Screen
         name="Tracking"
         component={TrackScreen}

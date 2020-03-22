@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ActivityIndicator, Platform, StyleSheet, Text, TouchableOpacity, View, Button } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import * as WebBrowser from 'expo-web-browser';
@@ -11,6 +11,10 @@ const CheckScreen = (props) => {
 
   [loading, setLoading] = useState(false);
   console.log("loading check response ", loading)
+
+  useEffect(()=> {
+    setLoading(false)
+  }, []);
 
 
   const sendSavedCoordinates = async () => {
@@ -45,7 +49,7 @@ const CheckScreen = (props) => {
             </Text>
 
           <Text style={{ fontSize: 50 }}>📡🗺️✅</Text>
-          <BigButton text='Bewegungsdaten abgleichen' onPress={sendSavedCoordinates} loading={loading} color='#E6E6E6'/>
+          <BigButton text='Bewegungsdaten abgleichen' onPress={sendSavedCoordinates} loading={loading} color='#FFEE73'/>
           <Text style={styles.developmentModeText}>
             Deine Daten werden mit der Bewegungshistorie von infizierten Personen abgeglichen.(Aber nicht gespeichert!)
               </Text>
@@ -64,7 +68,7 @@ CheckScreen.navigationOptions = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFEE73',
+    backgroundColor: '#fff',
   },
   developmentModeText: {
     marginBottom: 20,

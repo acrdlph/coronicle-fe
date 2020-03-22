@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ActivityIndicator, Platform, StyleSheet, Text, TouchableOpacity, View, Button } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import * as WebBrowser from 'expo-web-browser';
@@ -11,6 +11,10 @@ const ReportScreen = (props) => {
 
   [loading, setLoading] = useState(false);
   console.log("loading check response ", loading)
+
+  useEffect(()=> {
+    setLoading(false)
+  }, []);
 
 
   const sendSavedCoordinates = async () => {
@@ -43,7 +47,7 @@ const ReportScreen = (props) => {
             Teile deine Bewegungen, um andere zu schützen.
             </Text>
           <Text style={{ fontSize: 50 }}>✋🏥😷</Text>
-          <BigButton text='Anonymisierte Daten senden' onPress={sendSavedCoordinates} loading={loading} color='#E6E6E6' />
+          <BigButton text='Anonymisierte Daten senden' onPress={sendSavedCoordinates} loading={loading} color='#FFEE73' />
           <Text style={styles.developmentModeText}>
             Dir wurde eine Infektion ärztlich bestätigt?
             Dann teile hiermit deine Bewegungshistorie, damit wir sie mit dem Verlauf anderer vergleichen können.
@@ -62,7 +66,7 @@ ReportScreen.navigationOptions = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFEE73',
+    backgroundColor: '#fff',
   },
   developmentModeText: {
     marginBottom: 20,
