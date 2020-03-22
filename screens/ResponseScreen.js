@@ -12,33 +12,35 @@ const ResponseScreen = (props) => {
         <View style={styles.container}>
 
             <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+                {props.route.params.infected ?
+                    <View style={styles.getStartedContainer}>
+                        <Text style={styles.getStartedText}>Danke für deine Solidarität!</Text>
+                        <Text style={{ fontSize: 50, textAlign: "center" }}>🙅🥇👏</Text>
 
-                <View style={styles.getStartedContainer}>
-
-                    {props.route.params.infected ?
-                        <View>
-                            <Text style={{ fontSize: 30, textAlign: "center" }}>Danke für deine Solidarität!</Text>
-                            <Text style={{ fontSize: 50, textAlign: "center" }}>🙅🥇👏</Text>
-                        </View> :
-                        props.route.params.contact ?
-                            <View>
-                                <Text style={{ fontSize: 30, textAlign: "center" }}>Möglicher Kontakt zum Virus!</Text>
-                                <Text style={{ fontSize: 50, textAlign: "center" }}>💩🧐🏡</Text>
-                            </View>
-                            :
-                            <View>
-                                <Text style={{ fontSize: 30, textAlign: "center" }}>Kein Kontakt zum Virus!</Text>
-                                <Text style={{ fontSize: 50, textAlign: "center" }}>👍🌈🏡</Text>
-                            </View>
-                    }
-
-
-
-                    <Button title={"Okay!"} onPress={handleOK}></Button>
-                    <Text style={styles.developmentModeText}>
-                        Deine Daten werden mit der Bewegungshistorie von infizierten Personen abgeglichen.(Aber nicht gespeichert!)
-                    </Text>
-                </View>
+                        <Button title={"Okay!"} onPress={handleOK}></Button>
+                        <Text style={styles.developmentModeText}>
+                            Deine Daten werden mit der Bewegungshistorie von infizierten Personen abgeglichen.(Aber nicht gespeichert!)
+                            </Text>
+                    </View> :
+                    props.route.params.contact ?
+                        <View style={styles.getStartedContainer}>
+                            <Text style={styles.getStartedText}>Möglicher Kontakt zum Virus!</Text>
+                            <Text style={{ fontSize: 50, textAlign: "center" }}>💩🧐🏡</Text>
+                            <Button title={"Okay!"} onPress={handleOK}></Button>
+                            <Text style={styles.developmentModeText}>
+                                Deine Daten werden mit der Bewegungshistorie von infizierten Personen abgeglichen.(Aber nicht gespeichert!)
+                            </Text>
+                        </View>
+                        :
+                        <View style={styles.getStartedContainer}>
+                            <Text style={styles.getStartedText}>Kein Kontakt zum Virus!</Text>
+                            <Text style={{ fontSize: 50, textAlign: "center" }}>👍🌈🏡</Text>
+                            <Button title={"Okay!"} onPress={handleOK}></Button>
+                            <Text style={styles.developmentModeText}>
+                                Deine Daten werden mit der Bewegungshistorie von infizierten Personen abgeglichen.(Aber nicht gespeichert!)
+                            </Text>
+                        </View>
+                }
             </ScrollView>
         </View>
     );
@@ -51,7 +53,7 @@ ResponseScreen.navigationOptions = {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: '#FFEE73',
     },
     developmentModeText: {
         marginBottom: 20,
@@ -62,6 +64,7 @@ const styles = StyleSheet.create({
     },
     contentContainer: {
         paddingTop: 30,
+        height: '90%'
     },
     welcomeContainer: {
         alignItems: 'center',
@@ -77,8 +80,12 @@ const styles = StyleSheet.create({
     },
     getStartedContainer: {
         alignItems: 'center',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-evenly',
+        height: '100%',
         marginHorizontal: 50,
-        marginVertical: 200
+        marginVertical: 50
     },
     homeScreenFilename: {
         marginVertical: 7,
@@ -92,7 +99,8 @@ const styles = StyleSheet.create({
         paddingHorizontal: 4,
     },
     getStartedText: {
-        fontSize: 17,
+        fontSize: 22,
+        fontWeight: 'bold',
         color: 'rgba(96,100,109, 1)',
         lineHeight: 24,
         textAlign: 'center',

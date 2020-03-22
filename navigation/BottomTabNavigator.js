@@ -41,16 +41,16 @@ export default function BottomTabNavigator({ navigation, route }) {
   // Set the header title on the parent stack navigator depending on the
   // currently active tab. Learn more in the documentation:
   // https://reactnavigation.org/docs/en/screen-options-resolution.html
-  navigation.setOptions({ headerTitle: getHeaderTitle(route) });
+  navigation.setOptions({ headerShown: false });
 
   return (
-    <BottomTab.Navigator initialRouteName={INITIAL_ROUTE_NAME} >
+    <BottomTab.Navigator initialRouteName={INITIAL_ROUTE_NAME} tabBarOptions={{activeTintColor: '#FF8552', inactiveTintColor: "#297373", style: {color: 'green', backgroundColor: '#FFEE73', borderTopColor: "transparent"}}}>
       <BottomTab.Screen
         name="Tracking"
         component={TrackScreen}
         options={{
           title: 'Geo-Tracking',
-          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-locate" />,
+          tabBarIcon: ({ focused, color }) => <TabBarIcon focused={focused} name="md-locate" color={color}/>,
         }}
       />
       <BottomTab.Screen
@@ -58,7 +58,7 @@ export default function BottomTabNavigator({ navigation, route }) {
         component={CheckNavigator}
         options={{
           title: 'Bewegungsabgleich',
-          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-sync" />,
+          tabBarIcon: ({ focused, color }) => <TabBarIcon focused={focused} name="md-sync" color={color}/>,
         }}
       />
       <BottomTab.Screen
@@ -66,7 +66,7 @@ export default function BottomTabNavigator({ navigation, route }) {
         component={ReportNavigator}
         options={{
           title: 'Infektion melden',
-          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-warning" />,
+          tabBarIcon: ({ focused, color }) => <TabBarIcon focused={focused} name="md-warning" color={color}/>,
         }}
       />
     </BottomTab.Navigator>

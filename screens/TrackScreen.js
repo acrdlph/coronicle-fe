@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Image, Platform, StyleSheet, Text, TouchableOpacity, View, Button } from 'react-native';
+import { Platform, StyleSheet, Text, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import * as WebBrowser from 'expo-web-browser';
 
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
-import { save_dummy_coordinates } from "../persistence/db_save_locations";
+import { BigButton } from '../components/BigButton';
 
 export const LOCATION_TASK_NAME = 'background-location-task';
 
@@ -61,18 +61,17 @@ export default function TrackScreen() {
 
         <View style={styles.getStartedContainer}>
 
+          <Text style={styles.getStartedText}>
+            {trackingOn ? "Deine Bewegungen werden aufgezeichnet": "Gemeinsam tracken wir den Virus!"}
+          </Text>
+
           {trackingOn ?
-            <Text style={{ fontSize: 50 }}>✊🛡️📱</Text>
-            : <Text style={{ fontSize: 50 }}>🦠🤝❓</Text>
+            <Text style={{ fontSize: 70 }}>✊🛡️📱</Text>
+            : <Text style={{ fontSize: 70 }}>🦠🤝❓</Text>
 
           }
 
-          {/* <Text style={styles.getStartedText}>Speichere deine Bewegungshistorie.</Text> */}
-          <Button title={trackingOn ? "Aufzeichnung stoppen" : "Geolokation aufzeichnen"}
-            onPress={handleToggleTracking}></Button>
-          {/* <View style={[styles.codeHighlightContainer, styles.homeScreenFilename]}>
-            <MonoText>screens/HomeScreen.js</MonoText>
-          </View> */}
+            <BigButton onPress={handleToggleTracking} text={trackingOn ? "Aufzeichnung stoppen" : "Bewegungen aufzeichnen"} color={trackingOn ? '#E6E6E6' : '#FF8552'}/>
           <Text style={styles.developmentModeText}>
             Deine Daten werden nur lokal auf deinem Endgerät gespeichert. Wann immer du willst, kannst du sie mit den
             bei uns abliegenden Daten von infizierten Personen abgleichen.
@@ -114,7 +113,7 @@ function handleHelpPress() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#FFEE73',
   },
   developmentModeText: {
     marginBottom: 20,
@@ -124,7 +123,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   contentContainer: {
-    paddingTop: 30,
+    paddingTop: 50,
+    height: '90%'
   },
   welcomeContainer: {
     alignItems: 'center',
@@ -140,8 +140,12 @@ const styles = StyleSheet.create({
   },
   getStartedContainer: {
     alignItems: 'center',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-evenly',
+    height: '100%',
     marginHorizontal: 50,
-    marginVertical: 200
+    marginVertical: 50
   },
   homeScreenFilename: {
     marginVertical: 7,
@@ -155,7 +159,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 4,
   },
   getStartedText: {
-    fontSize: 17,
+    fontSize: 22,
+    fontWeight: 'bold',
     color: 'rgba(96,100,109, 1)',
     lineHeight: 24,
     textAlign: 'center',

@@ -5,6 +5,7 @@ import * as WebBrowser from 'expo-web-browser';
 import axios from 'axios';
 
 import { get_saved_coordinates } from "../persistence/db_save_locations";
+import { BigButton } from '../components/BigButton';
 
 const CheckScreen = (props) => {
 
@@ -23,7 +24,7 @@ const CheckScreen = (props) => {
         console.log("mock sending request");
         setLoading(false);
         // TODO: set contact to true or false based on beResponse
-        props.navigation.navigate("Response", {contact: true});
+        props.navigation.navigate("Response", { contact: true });
       }, 1000);
       // navigate to response screen (and pass outcome as navigation parameter)
 
@@ -37,17 +38,19 @@ const CheckScreen = (props) => {
     <View style={styles.container}>
 
       <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-        {loading ?
-          <ActivityIndicator size="large" />
-          :
-          <View style={styles.getStartedContainer}>
-            <Text style={{ fontSize: 50 }}>📡🗺️✅</Text>
-            <Button title={"Bewegungsdaten abgleichen"} onPress={sendSavedCoordinates}></Button>
-            <Text style={styles.developmentModeText}>
-              Deine Daten werden mit der Bewegungshistorie von infizierten Personen abgeglichen.(Aber nicht gespeichert!)
+
+        <View style={styles.getStartedContainer}>
+          <Text style={styles.getStartedText}>
+            Finde heraus, ob du in Kontakt warst.
+            </Text>
+
+          <Text style={{ fontSize: 50 }}>📡🗺️✅</Text>
+          <BigButton text='Bewegungsdaten abgleichen' onPress={sendSavedCoordinates} loading={loading} color='#E6E6E6'/>
+          <Text style={styles.developmentModeText}>
+            Deine Daten werden mit der Bewegungshistorie von infizierten Personen abgeglichen.(Aber nicht gespeichert!)
               </Text>
-          </View>
-        }
+        </View>
+
 
       </ScrollView>
     </View>
@@ -61,7 +64,7 @@ CheckScreen.navigationOptions = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#FFEE73',
   },
   developmentModeText: {
     marginBottom: 20,
@@ -71,7 +74,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   contentContainer: {
-    paddingTop: 30,
+    paddingTop: 50,
+    height: '90%'
   },
   welcomeContainer: {
     alignItems: 'center',
@@ -87,8 +91,12 @@ const styles = StyleSheet.create({
   },
   getStartedContainer: {
     alignItems: 'center',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-evenly',
+    height: '100%',
     marginHorizontal: 50,
-    marginVertical: 200
+    marginVertical: 50
   },
   homeScreenFilename: {
     marginVertical: 7,
@@ -102,7 +110,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 4,
   },
   getStartedText: {
-    fontSize: 17,
+    fontSize: 22,
+    fontWeight: 'bold',
     color: 'rgba(96,100,109, 1)',
     lineHeight: 24,
     textAlign: 'center',
