@@ -12,7 +12,7 @@ const ReportScreen = (props) => {
   [loadingReport, setLoadingReport] = useState(false);
   console.log("loading report response ", loadingReport)
 
-  useEffect(()=> {
+  useEffect(() => {
     setLoadingReport(false)
   }, []);
 
@@ -21,7 +21,7 @@ const ReportScreen = (props) => {
     setLoadingReport(true);
     try {
       const dbResult = await get_saved_coordinates();
-      const payload = dbResult.rows._array.map(location=> {
+      const payload = dbResult.rows._array.map(location => {
         return {
           id: location.id,
           lat: location.lat,
@@ -45,14 +45,12 @@ const ReportScreen = (props) => {
       <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
         <View style={styles.getStartedContainer}>
           <Text style={styles.getStartedText}>
-            Teile deine Bewegungen, um andere zu schützen.
+            Teile deine aufgezeichneten Daten zum Schutz anderer!
             </Text>
           <Text style={{ fontSize: 50 }}>✋🏥😷</Text>
-          <BigButton text='Anonymisierte Daten senden' onPress={sendSavedCoordinates} loading={loadingReport} color='#FFEE73' />
+          <BigButton text='Teilen!' onPress={sendSavedCoordinates} loading={loadingReport} color='#FFEE73' />
           <Text style={styles.developmentModeText}>
-            Dir wurde eine Infektion ärztlich bestätigt?
-            Dann teile hiermit deine Bewegungshistorie, damit wir sie mit dem Verlauf anderer vergleichen können.
-            Deine Daten bleiben bei uns und andere Nutzer erhalten nur die Information, ob sie mit dir in Kontakt gewesen sein könnten.
+            Bei dir wurde eine Erkrankung bestätigt? Dann teile mit uns deine mit dieser App aufgezeichnete Bewegung. Dadurch können andere Nutzer ihre Bewegung mit deiner Vergleichen und somit überprüfen, ob sie sich angesteckt haben können. Deine Daten werden streng vertraulich behandelt, abgespeichert und nach 28 Tagen automatisch gelöscht.
               </Text>
         </View>
       </ScrollView>

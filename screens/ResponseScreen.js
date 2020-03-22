@@ -17,27 +17,29 @@ const ResponseScreen = (props) => {
                         <Text style={styles.getStartedText}>Danke für deine Solidarität!</Text>
                         <Text style={{ fontSize: 50, textAlign: "center" }}>🙅🥇👏</Text>
 
-                        <Button title={"Okay!"} onPress={handleOK}></Button>
+                        <Button title={"Okay!"} onPress={handleOK} color='#297373'></Button>
                         <Text style={styles.developmentModeText}>
-                            Deine Daten werden mit der Bewegungshistorie von infizierten Personen abgeglichen.(Aber nicht gespeichert!)
+                            Vielen Dank, dass du deine letzten Standorte mit anderen geteilt hast! Bitte befolge nun die Anweisung offizieller Behörden. Gute Besserung!
                             </Text>
                     </View> :
                     props.route.params.contact ?
                         <View style={styles.getStartedContainer}>
-                            <Text style={styles.getStartedText}>Möglicher Kontakt zum Virus!</Text>
+                            <Text style={styles.getStartedText}>
+                                Möglicher Kontakt mit dem Virus!
+</Text>
                             <Text style={{ fontSize: 50, textAlign: "center" }}>💩🧐🏡</Text>
-                            <Button title={"Okay!"} onPress={handleOK}></Button>
+                            <Button title={"Okay!"} onPress={handleOK} color='#297373'></Button>
                             <Text style={styles.developmentModeText}>
-                                Deine Daten werden mit der Bewegungshistorie von infizierten Personen abgeglichen.(Aber nicht gespeichert!)
+                                Du hast dich in einem bestimmten Zeitfenster am selben Standort aufgehalten wie eine infizierte Person. Dieses Ergebnis basiert auf den uns vorliegenden Daten. Dies ersetzt keinen richtigen Test. Solltest du keine Beschwerden entwickeln, besteht auch kein Anlass sich testen zu lassen.
                             </Text>
                         </View>
                         :
                         <View style={styles.getStartedContainer}>
                             <Text style={styles.getStartedText}>Kein Kontakt zum Virus!</Text>
                             <Text style={{ fontSize: 50, textAlign: "center" }}>👍🌈🏡</Text>
-                            <Button title={"Okay!"} onPress={handleOK}></Button>
+                            <Button title={"Okay!"} onPress={handleOK} color='#297373'></Button>
                             <Text style={styles.developmentModeText}>
-                                Deine Daten werden mit der Bewegungshistorie von infizierten Personen abgeglichen.(Aber nicht gespeichert!)
+                                Du hattest bisher keinen Kontakt zum Virus. Dieses Ergebnis basiert auf den uns vorliegenden Daten. Solltest du dennoch Beschwerden haben oder entwickeln, solltest du dennoch deinen Hausarzt kontaktieren.
                             </Text>
                         </View>
                 }
@@ -101,7 +103,7 @@ const styles = StyleSheet.create({
     getStartedText: {
         fontSize: 22,
         fontWeight: 'bold',
-        color: 'rgba(96,100,109, 1)',
+        color: '#297373',
         lineHeight: 24,
         textAlign: 'center',
     },

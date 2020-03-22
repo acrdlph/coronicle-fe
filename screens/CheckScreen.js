@@ -12,7 +12,7 @@ const CheckScreen = (props) => {
   [loading, setLoading] = useState(false);
   console.log("loading check response ", loading)
 
-  useEffect(()=> {
+  useEffect(() => {
     setLoading(false)
   }, []);
 
@@ -22,7 +22,7 @@ const CheckScreen = (props) => {
       setLoading(true);
       const dbResult = await get_saved_coordinates();
       // console.log("***RESULT:", dbResult.rows._array);
-      const payload = dbResult.rows._array.map(location=> {
+      const payload = dbResult.rows._array.map(location => {
         return {
           id: location.id,
           lat: location.lat,
@@ -48,13 +48,13 @@ const CheckScreen = (props) => {
 
         <View style={styles.getStartedContainer}>
           <Text style={styles.getStartedText}>
-            Finde heraus, ob du in Kontakt warst.
+            Warst du in der Nähe des Virus?
             </Text>
 
           <Text style={{ fontSize: 50 }}>📡🗺️✅</Text>
-          <BigButton text='Bewegungsdaten abgleichen' onPress={sendSavedCoordinates} loading={loading} color='#FFEE73'/>
+          <BigButton text='Check!' onPress={sendSavedCoordinates} loading={loading} color='#FFEE73' />
           <Text style={styles.developmentModeText}>
-            Deine Daten werden mit der Bewegungshistorie von infizierten Personen abgeglichen.(Aber nicht gespeichert!)
+            Deine Bewegungsdaten werden mit denen von infizierten Personen abgeglichen. Wir speichern deine Daten hierfür nicht ab. Du solltest diesen Test regelmäßig machen, da wir ständig neue Daten und Informationen erhalten.
               </Text>
         </View>
 

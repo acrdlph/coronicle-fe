@@ -67,7 +67,7 @@ export default function TrackScreen() {
         <View style={styles.getStartedContainer}>
 
           <Text style={styles.getStartedText}>
-            {trackingOn ? "Deine Bewegungen werden aufgezeichnet": "Gemeinsam tracken wir den Virus!"}
+            {trackingOn ? "Deine Bewegungen werden aufgezeichnet" : "Gemeinsam tracken wir den Virus!"}
           </Text>
 
           {trackingOn ?
@@ -76,10 +76,9 @@ export default function TrackScreen() {
 
           }
 
-            <BigButton onPress={handleToggleTracking} loading={loading} text={trackingOn ? "Aufzeichnung stoppen" : "Bewegungen aufzeichnen"} color={trackingOn ? '#E6E6E6' : '#FF8552'}/>
+          <BigButton onPress={handleToggleTracking} loading={loading} text={trackingOn ? "Aufzeichnung stoppen" : "Track!"} color={trackingOn ? '#E6E6E6' : '#FF8552'} />
           <Text style={styles.developmentModeText}>
-            Deine Daten werden nur auf deinem Endgerät gespeichert. Wann immer du willst, kannst du sie mit den
-            bei uns abliegenden Daten von infizierten Personen abgleichen.
+            Deine Daten werden ausschließlich auf deinem Handy gespeichert. Du kannst sie jederzeit mit den Daten zu infizierten Personen abgleichen, ohne dass sie jemand anderes bekommt.
           </Text>
         </View>
 
@@ -104,16 +103,6 @@ export default function TrackScreen() {
 TrackScreen.navigationOptions = {
   header: null,
 };
-
-function handleLearnMorePress() {
-  WebBrowser.openBrowserAsync('https://docs.expo.io/versions/latest/workflow/development-mode/');
-}
-
-function handleHelpPress() {
-  WebBrowser.openBrowserAsync(
-    'https://docs.expo.io/versions/latest/get-started/create-a-new-app/#making-your-first-change'
-  );
-}
 
 const styles = StyleSheet.create({
   container: {
