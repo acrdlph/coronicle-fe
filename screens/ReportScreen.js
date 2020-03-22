@@ -26,11 +26,11 @@ const ReportScreen = (props) => {
           id: location.id,
           lat: location.lat,
           lon: location.lng,
-          time: new Date(location.timestamp)
+          time: (new Date(location.timestamp)).toISOString()
         }
       })
       const beResponse = await axios.post('http://localhost:15000/infectedtrace', payload);
-      // console.log(beResponse);
+      console.log(beResponse.data);
       setLoadingReport(false);
       props.navigation.navigate("Response", { infected: true });
     } catch (err) {
