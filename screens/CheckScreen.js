@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ActivityIndicator, Platform, StyleSheet, Text, TouchableOpacity, View, Button } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import * as WebBrowser from 'expo-web-browser';
@@ -12,22 +12,29 @@ const CheckScreen = (props) => {
   [loading, setLoading] = useState(false);
   console.log("loading check response ", loading)
 
+  useEffect(()=> {
+    setLoading(false)
+  }, []);
+
 
   const sendSavedCoordinates = async () => {
     try {
       setLoading(true);
       const dbResult = await get_saved_coordinates();
-      console.log("***RESULT:", dbResult.rows._array);
-      // const beResponse = await axios.post('http://localhost:15000/checktrace', dbResult.rows._array);
-      // to mock request:
-      setTimeout(() => {
-        console.log("mock sending request");
-        setLoading(false);
-        // TODO: set contact to true or false based on beResponse
-        props.navigation.navigate("Response", { contact: true });
-      }, 1000);
-      // navigate to response screen (and pass outcome as navigation parameter)
-
+      // console.log("***RESULT:", dbResult.rows._array);
+      const payload = dbResult.rows._array.map(location=> {
+        return {
+          id: location.id,
+          lat: location.lat,
+          lon: location.lng,
+          time: new Date(location.timestamp)
+        }
+      })
+      // console.log(payload);
+      const beResponse = await axios.post('http://localhost:15000/checktrace', payload);
+      // console.log(beResponse);
+      setLoading(false);
+      props.navigation.navigate("Response", { contact: true });
     } catch (err) {
       console.log(err);
       throw err;
@@ -45,7 +52,7 @@ const CheckScreen = (props) => {
             </Text>
 
           <Text style={{ fontSize: 50 }}>📡🗺️✅</Text>
-          <BigButton text='Bewegungsdaten abgleichen' onPress={sendSavedCoordinates} loading={loading} color='#E6E6E6'/>
+          <BigButton text='Bewegungsdaten abgleichen' onPress={sendSavedCoordinates} loading={loading} color='#FFEE73'/>
           <Text style={styles.developmentModeText}>
             Deine Daten werden mit der Bewegungshistorie von infizierten Personen abgeglichen.(Aber nicht gespeichert!)
               </Text>
@@ -64,7 +71,7 @@ CheckScreen.navigationOptions = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFEE73',
+    backgroundColor: '#fff',
   },
   developmentModeText: {
     marginBottom: 20,
