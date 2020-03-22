@@ -22,17 +22,17 @@ const CheckScreen = (props) => {
       setLoading(true);
       const dbResult = await get_saved_coordinates();
       // console.log("***RESULT:", dbResult.rows._array);
-      const payload = dbResult.rows._array.map(location=> {
+      const payload = JSON.stringify(dbResult.rows._array.map(location=> {
         return {
           id: location.id,
           lat: location.lat,
           lon: location.lng,
           time: new Date(location.timestamp)
         }
-      })
-      // console.log(payload);
-      const beResponse = await axios.post('http://localhost:15000/checktrace', payload);
-      // console.log(beResponse);
+      }))
+      console.log(payload)
+      const beResponse = axios.post('http://localhost:15000/checktrace', [{"id":1,"lat":37.33021864,"lon":-122.02370753,"time":"2020-03-21T21:02:38.123Z"}]);
+      console.log(beResponse);
       setLoading(false);
       props.navigation.navigate("Response", { contact: true });
     } catch (err) {
