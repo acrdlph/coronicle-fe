@@ -15,22 +15,27 @@ export default function TrackScreen() {
   [permission, setPermission] = useState(false);
 
   [intervalState, setIntervalState] = useState(null);
+  [loading, setLoading] = useState(false);
 
   console.log(trackingOn)
 
 
   const handleToggleTracking = async () => {
+    setLoading(true);
     if (trackingOn) {
       setTrackingOn(false);
       Location.stopLocationUpdatesAsync(LOCATION_TASK_NAME);
       console.log("tracking is off");
+      setLoading(false);
     } else {
       let { status } = await Permissions.askAsync(Permissions.LOCATION);
+      setLoading(false);
       if (status !== 'granted') {
         setPermission(false);
       } else {
         setPermission(true);
         saveLocationHistory();
+        setLoading(false);
       }
     }
   };
@@ -71,7 +76,7 @@ export default function TrackScreen() {
 
           }
 
-            <BigButton onPress={handleToggleTracking} text={trackingOn ? "Aufzeichnung stoppen" : "Bewegungen aufzeichnen"} color={trackingOn ? '#E6E6E6' : '#FF8552'}/>
+            <BigButton onPress={handleToggleTracking} loading={loading} text={trackingOn ? "Aufzeichnung stoppen" : "Bewegungen aufzeichnen"} color={trackingOn ? '#E6E6E6' : '#FF8552'}/>
           <Text style={styles.developmentModeText}>
             Deine Daten werden nur auf deinem Endgerät gespeichert. Wann immer du willst, kannst du sie mit den
             bei uns abliegenden Daten von infizierten Personen abgleichen.

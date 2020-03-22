@@ -21,17 +21,20 @@ const CheckScreen = (props) => {
     try {
       setLoading(true);
       const dbResult = await get_saved_coordinates();
-      console.log("***RESULT:", dbResult.rows._array);
-      // const beResponse = await axios.post('http://localhost:15000/checktrace', dbResult.rows._array);
-      // to mock request:
-      setTimeout(() => {
-        console.log("mock sending request");
-        setLoading(false);
-        // TODO: set contact to true or false based on beResponse
-        props.navigation.navigate("Response", { contact: true });
-      }, 1000);
-      // navigate to response screen (and pass outcome as navigation parameter)
-
+      // console.log("***RESULT:", dbResult.rows._array);
+      const payload = dbResult.rows._array.map(location=> {
+        return {
+          id: location.id,
+          lat: location.lat,
+          lon: location.lng,
+          time: new Date(location.timestamp)
+        }
+      })
+      // console.log(payload);
+      const beResponse = await axios.post('http://localhost:15000/checktrace', payload);
+      // console.log(beResponse);
+      setLoading(false);
+      props.navigation.navigate("Response", { contact: true });
     } catch (err) {
       console.log(err);
       throw err;
